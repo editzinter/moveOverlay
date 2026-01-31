@@ -1,7 +1,7 @@
 <div align="center">
 
 # MoveOverlay: Chess Vision AI
-### Professional, Injection-Free Chess Tactical Overlay
+### Simple, effective, and completely injection-free.
 [![GitHub license](https://img.shields.io/github/license/editzinter/moveOverlay)](https://github.com/editzinter/moveOverlay/blob/main/LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://www.python.org/)
@@ -9,111 +9,111 @@
 
 ---
 
-**MoveOverlay** is a high-performance, visual-first chess tool designed to bridge the gap between engine analysis and live browser-based chess without the risks of code injection. By utilizing a transparent, click-through overlay, it provides real-time tactical feedback directly onto your board.
+**MoveOverlay** is a visual-first tool designed for players who want engine analysis without the risks of browser extensions or code injection. It works by "looking" at your screen just like you do, analyzing the board in real-time and drawing tactical advice directly on a transparent overlay.
 
-[Key Features](#key-features) • [Installation](#installation) • [Architecture](#architecture) • [Getting Started](#getting-started)
+[Features](#key-features) • [Installation](#setup-guide) • [How it Works](#how-it-works) • [Getting Started](#launching)
 
 </div>
 
 ---
 
 > [!CAUTION]
-> **Disclaimer**: This project is for **educational purposes only**. It is intended to showcase the integration of computer vision (YOLOv8) with real-time overlays and engine analysis. Use this tool responsibly and in accordance with the terms of service of any platform you interact with.
+> **Educational Use Only**: I built this project to explore how computer vision (YOLOv8) can interact with real-time screen data. It’s meant for learning and research. Please be responsible and keep in mind the terms of service of the platforms you use.
 
 ---
 
-## Key Features
+## What makes it different?
 
-- **Zero-Injection Safety**: Does not modify browser memory or website source code. It purely analyzes visual output.
-- **YOLOv8 Powered**: State-of-the-art object detection identifies pieces and board boundaries with high precision.
-- **Tactical Visualization**: Draws dynamic Stockfish arrows and score evaluations directly over your screen.
-- **Real-Time Control**: A sleek Next.js dashboard allows you to toggle detection, adjust engine depth, and switch turns instantly.
-- **Auto-Orientation**: Detects whether you are playing as White or Black based on pawn positioning.
+Most chess tools try to dig into a website's internal code. **MoveOverlay doesn't.** 
 
----
-
-## Architecture
-
-MoveOverlay operates using a distributed service model for maximum efficiency:
-
-1.  **Web Dashboard (Next.js)**: The command center for managing engine settings and viewing game state.
-2.  **Detection API (FastAPI)**: A lightweight backend that processes screen captures via YOLOv8.
-3.  **Visual Overlay (Python/Tkinter)**: A transparent, click-through window that renders tactical arrows.
-4.  **Stockfish Core**: The world-class engine providing deep position evaluation.
+- **Privacy & Safety First**: It analyzes pixels, not browser memory. This means it doesn't touch your browser's internal logic or personal data.
+- **Smart Vision**: Uses a fine-tuned YOLOv8 model to "see" pieces and board boundaries exactly as they appear on your screen.
+- **Live Guidance**: Once it detects the board, it talks to Stockfish to suggest the best moves and displays them as arrows on a transparent layer.
+- **Clean Dashboard**: A simple Next.js interface lets you control everything—adjust engine depth, switch sides, or toggle the overlay on the fly.
+- **Zero Configuration**: It automatically figures out if you're playing as White or Black by checking where your pawns are.
 
 ---
 
-## Installation Guide
+## How it works
 
-### Prerequisites
-Ensure you have the following installed on your system:
-- **Node.js** (v24 or higher)
-- **Python** (v3.12 or higher)
+MoveOverlay is split into three simple parts:
+1.  **The Dashboard (Next.js)**: Where you manage your settings and see what the engine is thinking.
+2.  **The Brain (FastAPI)**: A small backend that takes your screen captures and runs them through the pieces-detection model.
+3.  **The Overlay (Python/Tkinter)**: The "invisible" window that sits on top of your screen to draw the arrows.
+
+---
+
+## Setup Guide
+
+### What you'll need
+Before we start, make sure you have these installed:
+- **Node.js** (v24 or newer)
+- **Python** (v3.12 or newer)
 - **Git**
 
-### Installation Steps
+### Step-by-step Installation
 
-1. **Clone the Repository**
+1. **Grab the code**
    ```bash
    git clone https://github.com/editzinter/moveOverlay.git
    cd moveOverlay
    ```
 
-2. **Frontend Setup**
+2. **Setup the Dashboard (Frontend)**
    ```bash
    npm install
    ```
 
-3. **Backend Setup**
+3. **Setup the Brain (Backend)**
    ```bash
    pip install -r detector-api/requirements.txt
    ```
 
-### Model Configuration
-MoveOverlay requires pre-trained weights to function properly.
-1. Download `best.pt` from the official **[NAKST Studio Hugging Face Repo](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)**.
-2. Create a folder named `yolov8m-chess-piece-detection` at the project root.
-3. Place the `best.pt` file inside that folder.
+### Adding the AI Model
+The tool needs the "vision weights" to recognize chess pieces.
+1. Download `best.pt` from the **[NAKST Studio Hugging Face page](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)**.
+2. Create a folder called `yolov8m-chess-piece-detection` in the project root.
+3. Move your downloaded `best.pt` file into that folder.
 
 ---
 
-## Usage
+## Launching
 
-### 1. Launch the Frontend
-Start the Next.js control panel:
+### 1. Start the Dashboard
+First, get the control panel running:
 ```bash
 npm run dev
 ```
-Navigate to `http://localhost:3000` to access the dashboard.
+Then, open your browser to `http://localhost:3000`.
 
-### 2. Launch the Vision System
-Run the launcher script to start the API and Overlay:
+### 2. Start the Vision System
+In a new terminal, run the launcher:
 ```bash
 python detector-api/start.py
 ```
 
-### 3. Select your Board
-Click **"Select Region"** in the tool to highlight your chess board. Once selected, tactical analysis will begin automatically.
+### 3. Point and Analyze
+On the dashboard, hit **"Select Region"**. This will let you draw a box over your chess board. Once you've selected the area, the arrows will start appearing automatically!
 
 ---
 
 ## Contributing
 
-Contributions are welcome. If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
+Created something cool? Found a bug? Feel free to open an issue or send a pull request. I'm always happy to see how people improve this!
 
 ## Credits
 
-Special thanks to the following projects and creators:
-- **[NAKST Studio](https://huggingface.co/NAKSTStudio)**: For the exceptional YOLOv8m chess piece detection model.
-- **[Ultralytics](https://ultralytics.com/)**: For the YOLOv8 framework.
-- **[Stockfish](https://stockfishchess.org/)**: For the world-leading chess engine.
+This project stands on the shoulders of some amazing tools:
+- **[NAKST Studio](https://huggingface.co/NAKSTStudio)**: For the fantastic YOLOv8m chess detection model.
+- **[Ultralytics](https://ultralytics.com/)**: For making YOLOv8 so accessible.
+- **[Stockfish](https://stockfishchess.org/)**: For the world-class engine evaluation.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is open-source under the [MIT License](LICENSE).
 
 ---
 
 <div align="center">
-Built with 💙 by editzinter. Powered by Ultralytics and Stockfish.
+Built with 💙 by editzinter.
 </div>
