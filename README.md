@@ -11,7 +11,7 @@
 
 **MoveOverlay** is a visual-first tool designed for players who want engine analysis without the risks of browser extensions or code injection. It works by "looking" at your screen just like you do, analyzing the board in real-time and drawing tactical advice directly on a transparent overlay.
 
-[Features](#key-features) • [Installation](#setup-guide) • [How it Works](#how-it-works) • [Getting Started](#launching)
+[Features](#what-makes-it-different) • [How it Works](#how-it-works) • [Installation](#getting-started) • [Usage](#usage)
 
 </div>
 
@@ -96,7 +96,7 @@ graph TD
 *   **Python 3.10+** (Required for the overlay)
 *   **Node.js 18+** (Only if you want the dashboard)
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ### 1. The Core (Required)
 The Python application handles the vision, the engine, and the overlay.
@@ -129,7 +129,7 @@ Only do this if you want the nice web UI to debug or view the analysis on a clea
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ### Option A: Just the Overlay (Fastest)
 Run the Python launcher. This starts the detection API and the Overlay GUI.
