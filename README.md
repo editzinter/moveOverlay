@@ -26,7 +26,10 @@ pip install -r detector-api/requirements.txt
 ```
 
 ### 3. Model Setup
-Download the YOLOv8 model (`best.pt`) and place it in a folder named `yolov8m-chess-piece-detection` at the project root level.
+Download the pre-trained YOLOv8 model (`best.pt`) from Hugging Face:
+- [**Chess Detection YOLOv8m Model**](https://huggingface.co/KanisornPutta/chess-model-yolov8m)
+
+Place the `best.pt` file in a folder named `yolov8m-chess-piece-detection` at the project root level.
 
 ### 4. Running the Project
 In one terminal, start the Next.js dev server:
