@@ -43,9 +43,9 @@ MoveOverlay uses a decoupled architecture to ensure safety and performance. Here
 ```mermaid
 graph TD
     %% Styling
-    classDef userLayer fill:#f9f9f9,stroke:#333,stroke-width:2px;
-    classDef core fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
-    classDef ai fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:black;
+    classDef userLayer fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000;
+    classDef core fill:#e1f5fe,stroke:#0277bd,stroke-width:2px,color:#000;
+    classDef ai fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000;
 
     subgraph UserSpace ["User Environment"]
         Screen["🖥️ User Screen"]
