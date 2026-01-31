@@ -36,30 +36,81 @@ Most chess tools try to dig into a website's internal code. **MoveOverlay doesn'
 
 ## How it works
 
-MoveOverlay is split into three simple parts that work together in real-time:
+MoveOverlay uses a decoupled architecture to ensure safety and performance. Here is how the magic happens:
 
-### System Architecture
+### 🏗️ System Architecture
+
 ```mermaid
 graph TD
-    User["User Screen (Chess Board)"]
-    Overlay["Transparent Overlay (Python/Tkinter)"]
-    API["Detection API (FastAPI + YOLOv8)"]
-    Dash["Dashboard (Next.js/React)"]
-    Stockfish["Stockfish Engine"]
+    %% Styling
+    classDef userLayer fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef core fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+    classDef ai fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:black;
 
-    User -- "Visual Pixels" --> API
-    API -- "Runs Inference" --> API
-    API -- "Board State (FEN)" --> Dash
-    Dash -- "Analysis Request" --> Stockfish
-    Stockfish -- "Best Move & Score" --> Dash
-    Dash -- "Draw Instructions" --> Overlay
-    Overlay -- "Renders Arrows" --> User
+    subgraph UserSpace [User Environment]
+        Screen[🖥️ User Screen]
+        Browser[🌐 Web Browser / Chess App]
+    end
+
+    subgraph Backend [🐍 Python Vision Core]
+        Capture[📷 Screen Capture (MSS)]
+        YOLO[👁️ YOLOv8 Model]
+        API[🧠 Detection API (FastAPI)]
+        Overlay[🎯 Transparent Overlay (Tkinter)]
+    end
+
+    subgraph Frontend [⚛️ Next.js Dashboard]
+        UI[🎛️ Control Panel]
+        Stockfish[♟️ Stockfish Engine (WASM/Server)]
+    end
+
+    %% Connections
+    Browser -- "Displays Board" --> Screen
+    Screen -- "Raw Pixels" --> Capture
+    Capture -- "Frame Data" --> YOLO
+    YOLO -- "Inference" --> API
+    API -- "FEN String" --> UI
+    UI -- "Analysis Request" --> Stockfish
+    Stockfish -- "Best Move" --> UI
+    UI -- "Visual Coordinates" --> Overlay
+    Overlay -- "Draws on Top" --> Screen
+
+    %% Assign Classes
+    class Screen,Browser userLayer;
+    class Capture,API,Overlay,UI core;
+    class YOLO,Stockfish ai;
 ```
 
-### Data Flow
-1.  **The Dashboard (Next.js)**: Where you manage your settings and see what the engine is thinking.
-2.  **The Brain (FastAPI)**: A small backend that takes your screen captures and runs them through the pieces-detection model.
-3.  **The Overlay (Python/Tkinter)**: The "invisible" window that sits on top of your screen to draw the arrows.
+### 🔄 Real-Time Event Loop
+
+Since the two systems run independently, they communicate continuously to keep the overlay in sync with the game.
+
+```mermaid
+sequenceDiagram
+    participant Screen as 🖥️ Screen
+    participant Python as 🐍 Vision System
+    participant NextJS as ⚛️ Dashboard
+    participant Engine as ♟️ Stockfish
+
+    loop Every 500ms
+        Python->>Screen: Capture Region
+        Python->>Python: YOLO Inference (Get FEN)
+        Python->>NextJS: POST /api/status (Update Board)
+        
+        par Analysis
+            NextJS->>Engine: UCI Command (go depth 18)
+            Engine-->>NextJS: Best Move: e2e4
+        end
+
+        NextJS-->>Python: Response (Draw Arrow e2->e4)
+        Python-->>Screen: Render Overlay Arrow
+    end
+```
+
+### The "Secret Sauce"
+1.  **The Dashboard (Next.js)** acts as the brain. It holds the state and talks to the engine.
+2.  **The Vision System (Python)** acts as the eyes. It just looks at pixels and asks the brain "What should I draw?"
+3.  **The Overlay** acts as the hands. It paints the arrows without ever touching the browser itself.
 
 ---
 
