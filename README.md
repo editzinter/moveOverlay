@@ -1,7 +1,7 @@
 <div align="center">
 
-# ♟️ MoveOverlay: Chess Vision AI
-### A Professional, Injection-Free Chess Tactical Overlay
+# MoveOverlay: Chess Vision AI
+### Professional, Injection-Free Chess Tactical Overlay
 [![GitHub license](https://img.shields.io/github/license/editzinter/moveOverlay)](https://github.com/editzinter/moveOverlay/blob/main/LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://www.python.org/)
@@ -11,23 +11,23 @@
 
 **MoveOverlay** is a high-performance, visual-first chess tool designed to bridge the gap between engine analysis and live browser-based chess without the risks of code injection. By utilizing a transparent, click-through overlay, it provides real-time tactical feedback directly onto your board.
 
-[Key Features](#-key-features) • [Installation](#-installation) • [Architecture](#-architecture) • [Getting Started](#-getting-started)
+[Key Features](#key-features) • [Installation](#installation) • [Architecture](#architecture) • [Getting Started](#getting-started)
 
 </div>
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- 🛡️ **Zero-Injection Safety**: Does not modify browser memory or website source code. It purely "sees" pixels.
-- 🎯 **YOLOv8 Powered**: State-of-the-art object detection identifies pieces and board boundaries with high precision.
-- 🏹 **Tactical Visualization**: Draws dynamic Stockfish arrows and score evaluations directly over your screen.
-- ⚙️ **Real-Time Control**: A sleek Next.js dashboard allows you to toggle detection, adjust engine depth, and switch turns instantly.
-- 🔄 **Auto-Orientation**: Detects whether you are playing as White or Black based on pawn positioning.
+- **Zero-Injection Safety**: Does not modify browser memory or website source code. It purely analyzes visual output.
+- **YOLOv8 Powered**: State-of-the-art object detection identifies pieces and board boundaries with high precision.
+- **Tactical Visualization**: Draws dynamic Stockfish arrows and score evaluations directly over your screen.
+- **Real-Time Control**: A sleek Next.js dashboard allows you to toggle detection, adjust engine depth, and switch turns instantly.
+- **Auto-Orientation**: Detects whether you are playing as White or Black based on pawn positioning.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 MoveOverlay operates using a distributed service model for maximum efficiency:
 
@@ -38,15 +38,15 @@ MoveOverlay operates using a distributed service model for maximum efficiency:
 
 ---
 
-## 🚀 Getting Started
+## Installation Guide
 
-### 📋 Prerequisites
+### Prerequisites
 Ensure you have the following installed on your system:
 - **Node.js** (v24 or higher)
 - **Python** (v3.12 or higher)
 - **Git**
 
-### 📥 Installation
+### Installation Steps
 
 1. **Clone the Repository**
    ```bash
@@ -64,15 +64,15 @@ Ensure you have the following installed on your system:
    pip install -r detector-api/requirements.txt
    ```
 
-### 🧠 Model Configuration
-MoveOverlay requires the pre-trained weights to function.
+### Model Configuration
+MoveOverlay requires pre-trained weights to function properly.
 1. Download `best.pt` from the official **[NAKST Studio Hugging Face Repo](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)**.
 2. Create a folder named `yolov8m-chess-piece-detection` at the project root.
 3. Place the `best.pt` file inside that folder.
 
 ---
 
-## 🛠️ Usage
+## Usage
 
 ### 1. Launch the Frontend
 Start the Next.js control panel:
@@ -92,11 +92,11 @@ Click **"Select Region"** in the tool to highlight your chess board. Once select
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
+Contributions are welcome. If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
