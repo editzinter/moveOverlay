@@ -26,8 +26,8 @@ pip install -r detector-api/requirements.txt
 ```
 
 ### 3. Model Setup
-Download the pre-trained YOLOv8 model (`best.pt`) from Hugging Face:
-- [**Chess Detection YOLOv8m Model (NAKST Studio)**](https://huggingface.co/NAKSTStudio/yolov8-chess-piece-detection)
+Download the pre-trained YOLOv8m model (`best.pt`) from Hugging Face:
+- [**Chess Detection YOLOv8m Model (NAKST Studio)**](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)
 
 Place the `best.pt` file in a folder named `yolov8m-chess-piece-detection` at the project root level.
 
