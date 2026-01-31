@@ -17,6 +17,11 @@
 
 ---
 
+> [!CAUTION]
+> **Disclaimer**: This project is for **educational purposes only**. It is intended to showcase the integration of computer vision (YOLOv8) with real-time overlays and engine analysis. Use this tool responsibly and in accordance with the terms of service of any platform you interact with.
+
+---
+
 ## Key Features
 
 - **Zero-Injection Safety**: Does not modify browser memory or website source code. It purely analyzes visual output.
