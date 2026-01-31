@@ -36,7 +36,27 @@ Most chess tools try to dig into a website's internal code. **MoveOverlay doesn'
 
 ## How it works
 
-MoveOverlay is split into three simple parts:
+MoveOverlay is split into three simple parts that work together in real-time:
+
+### System Architecture
+```mermaid
+graph TD
+    User["User Screen (Chess Board)"]
+    Overlay["Transparent Overlay (Python/Tkinter)"]
+    API["Detection API (FastAPI + YOLOv8)"]
+    Dash["Dashboard (Next.js/React)"]
+    Stockfish["Stockfish Engine"]
+
+    User -- "Visual Pixels" --> API
+    API -- "Runs Inference" --> API
+    API -- "Board State (FEN)" --> Dash
+    Dash -- "Analysis Request" --> Stockfish
+    Stockfish -- "Best Move & Score" --> Dash
+    Dash -- "Draw Instructions" --> Overlay
+    Overlay -- "Renders Arrows" --> User
+```
+
+### Data Flow
 1.  **The Dashboard (Next.js)**: Where you manage your settings and see what the engine is thinking.
 2.  **The Brain (FastAPI)**: A small backend that takes your screen captures and runs them through the pieces-detection model.
 3.  **The Overlay (Python/Tkinter)**: The "invisible" window that sits on top of your screen to draw the arrows.
