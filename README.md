@@ -96,6 +96,13 @@ Click **"Select Region"** in the tool to highlight your chess board. Once select
 
 Contributions are welcome. If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
 
+## Credits
+
+Special thanks to the following projects and creators:
+- **[NAKST Studio](https://huggingface.co/NAKSTStudio)**: For the exceptional YOLOv8m chess piece detection model.
+- **[Ultralytics](https://ultralytics.com/)**: For the YOLOv8 framework.
+- **[Stockfish](https://stockfishchess.org/)**: For the world-leading chess engine.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
