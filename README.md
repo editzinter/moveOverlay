@@ -47,21 +47,21 @@ graph TD
     classDef core fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
     classDef ai fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:black;
 
-    subgraph UserSpace [User Environment]
-        Screen[🖥️ User Screen]
-        Browser[🌐 Web Browser / Chess App]
+    subgraph UserSpace ["User Environment"]
+        Screen["🖥️ User Screen"]
+        Browser["🌐 Web Browser / Chess App"]
     end
 
-    subgraph Backend [🐍 Python Vision Core]
-        Capture[📷 Screen Capture (MSS)]
-        YOLO[👁️ YOLOv8 Model]
-        API[🧠 Detection API (FastAPI)]
-        Overlay[🎯 Transparent Overlay (Tkinter)]
+    subgraph Backend ["🐍 Python Vision Core"]
+        Capture["📷 Screen Capture (MSS)"]
+        YOLO["👁️ YOLOv8 Model"]
+        API["🧠 Detection API (FastAPI)"]
+        Overlay["🎯 Transparent Overlay (Tkinter)"]
     end
 
-    subgraph Frontend [⚛️ Next.js Dashboard]
-        UI[🎛️ Control Panel]
-        Stockfish[♟️ Stockfish Engine (WASM/Server)]
+    subgraph Frontend ["⚛️ Next.js Dashboard"]
+        UI["🎛️ Control Panel"]
+        Stockfish["♟️ Stockfish Engine (WASM/Server)"]
     end
 
     %% Connections
