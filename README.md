@@ -52,16 +52,16 @@ graph TD
         Browser["🌐 Web Browser / Chess App"]
     end
 
-    subgraph Backend ["🐍 Python Vision Core"]
+    subgraph Backend ["🐍 Python Vision Core (Standalone)"]
         Capture["📷 Screen Capture (MSS)"]
         YOLO["👁️ YOLOv8 Model"]
-        API["🧠 Detection API (FastAPI)"]
+        API["🧠 Detection Logic"]
         Overlay["🎯 Transparent Overlay (Tkinter)"]
+        LocalStockfish["♟️ Local Stockfish Engine"]
     end
 
-    subgraph Frontend ["⚛️ Next.js Dashboard"]
+    subgraph Frontend ["⚛️ Next.js Dashboard (Optional)"]
         UI["🎛️ Control Panel"]
-        Stockfish["♟️ Stockfish Engine (WASM/Server)"]
     end
 
     %% Connections
@@ -69,77 +69,92 @@ graph TD
     Screen -- "Raw Pixels" --> Capture
     Capture -- "Frame Data" --> YOLO
     YOLO -- "Inference" --> API
-    API -- "FEN String" --> UI
-    UI -- "Analysis Request" --> Stockfish
-    Stockfish -- "Best Move" --> UI
-    UI -- "Visual Coordinates" --> Overlay
+    API -- "Board State (FEN)" --> Overlay
+    Overlay -- "Analysis Request" --> LocalStockfish
+    LocalStockfish -- "Best Move" --> Overlay
     Overlay -- "Draws on Top" --> Screen
+    
+    API -. "Sync State" .-> UI
 
     %% Assign Classes
     class Screen,Browser userLayer;
-    class Capture,API,Overlay,UI core;
-    class YOLO,Stockfish ai;
+    class Capture,API,Overlay,LocalStockfish core;
+    class YOLO,UI ai;
 ```
 
 
 ### The "Secret Sauce"
-1.  **The Dashboard (Next.js)** acts as the brain. It holds the state and talks to the engine.
-2.  **The Vision System (Python)** acts as the eyes. It just looks at pixels and asks the brain "What should I draw?"
-3.  **The Overlay** acts as the hands. It paints the arrows without ever touching the browser itself.
+1.  **The Vision System (Python)**: This is the main application. It captures the screen, runs the YOLO AI, talks to the Stockfish engine, and draws the arrows. **It runs completely independently.**
+2.  **The Dashboard (Next.js)**: An *optional* web interface. If you run it, you can see what the AI sees, debug the board state, or control settings from a second monitor.
 
 ---
 
-## Setup Guide
+## Getting Started
 
-### What you'll need
-Before we start, make sure you have these installed:
-- **Node.js** (v24 or newer)
-- **Python** (v3.12 or newer)
-- **Git**
+### Prerequisites
 
-### Step-by-step Installation
+*   **Python 3.10+** (Required for the overlay)
+*   **Node.js 18+** (Only if you want the dashboard)
 
-1. **Grab the code**
-   ```bash
-   git clone https://github.com/editzinter/moveOverlay.git
-   cd moveOverlay
-   ```
+## 📦 Installation & Setup
 
-2. **Setup the Dashboard (Frontend)**
-   ```bash
-   npm install
-   ```
+### 1. The Core (Required)
+The Python application handles the vision, the engine, and the overlay.
 
-3. **Setup the Brain (Backend)**
-   ```bash
-   pip install -r detector-api/requirements.txt
-   ```
+1.  **Clone the repo**:
+    ```bash
+    git clone https://github.com/editzinter/moveOverlay.git
+    cd moveOverlay
+    ```
 
-### Adding the AI Model
-The tool needs the "vision weights" to recognize chess pieces.
-1. Download `best.pt` from the **[NAKST Studio Hugging Face page](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)**.
-2. Create a folder called `yolov8m-chess-piece-detection` in the project root.
-3. Move your downloaded `best.pt` file into that folder.
+2.  **Download the Model**:
+    *   Download `best.pt` from the **[NAKST Studio Hugging Face Repo](https://huggingface.co/NAKSTStudio/yolov8m-chess-piece-detection)**.
+    *   Place it inside the `yolov8m-chess-piece-detection/` folder.
+
+3.  **Install Python Dependencies**:
+    ```bash
+    cd detector-api
+    pip install -r requirements.txt
+    ```
+
+### 2. The Dashboard (Optional)
+Only do this if you want the nice web UI to debug or view the analysis on a clearer screen.
+
+1.  **Install Node Dependencies**:
+    ```bash
+    # From the root project folder
+    cd my-app
+    npm install
+    ```
 
 ---
 
-## Launching
+## 🚀 Usage
 
-### 1. Start the Dashboard
-First, get the control panel running:
+### Option A: Just the Overlay (Fastest)
+Run the Python launcher. This starts the detection API and the Overlay GUI.
+
 ```bash
-npm run dev
+# Inside /detector-api/
+python start.py
 ```
-Then, open your browser to `http://localhost:3000`.
+*   A window will pop up. Click **"Select Region"** and drag over your chess board.
+*   Click **"Start Capture"**.
+*   Arrows will appear directly on your screen!
 
-### 2. Start the Vision System
-In a new terminal, run the launcher:
-```bash
-python detector-api/start.py
-```
+### Option B: With Dashboard (Full Experience)
+If you want the web UI:
 
-### 3. Point and Analyze
-On the dashboard, hit **"Select Region"**. This will let you draw a box over your chess board. Once you've selected the area, the arrows will start appearing automatically!
+1.  Run the Python starter as above:
+    ```bash
+    python detector-api/start.py
+    ```
+2.  In a **new terminal**, start the web server:
+    ```bash
+    cd my-app
+    npm run dev
+    ```
+3.  Open `http://localhost:3000` in your browser.
 
 ---
 
