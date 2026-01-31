@@ -81,31 +81,6 @@ graph TD
     class YOLO,Stockfish ai;
 ```
 
-### 🔄 Real-Time Event Loop
-
-Since the two systems run independently, they communicate continuously to keep the overlay in sync with the game.
-
-```mermaid
-sequenceDiagram
-    participant Screen as 🖥️ Screen
-    participant Python as 🐍 Vision System
-    participant NextJS as ⚛️ Dashboard
-    participant Engine as ♟️ Stockfish
-
-    loop Every 500ms
-        Python->>Screen: Capture Region
-        Python->>Python: YOLO Inference (Get FEN)
-        Python->>NextJS: POST /api/status (Update Board)
-        
-        par Analysis
-            NextJS->>Engine: UCI Command (go depth 18)
-            Engine-->>NextJS: Best Move: e2e4
-        end
-
-        NextJS-->>Python: Response (Draw Arrow e2->e4)
-        Python-->>Screen: Render Overlay Arrow
-    end
-```
 
 ### The "Secret Sauce"
 1.  **The Dashboard (Next.js)** acts as the brain. It holds the state and talks to the engine.
